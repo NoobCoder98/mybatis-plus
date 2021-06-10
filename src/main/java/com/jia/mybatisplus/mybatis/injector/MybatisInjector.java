@@ -8,6 +8,7 @@ import com.jia.mybatisplus.mybatis.injector.LogicDeleteInjector.LogicDeleteByIdI
 import com.jia.mybatisplus.mybatis.injector.LogicDeleteInjector.LogicDeleteBatchByIdsInjector;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -24,25 +25,12 @@ public class MybatisInjector extends DefaultSqlInjector {
 
     @Override
     public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
-        //替换掉原来的三个删除方法
-        return Stream.of(
-                new Insert(),
-                new LogicDeleteBatchInjector(),
-                new DeleteByMap(),
-                new LogicDeleteByIdInjector(),
-                new LogicDeleteBatchByIdsInjector(),
-                new Update(),
-                new UpdateById(),
-                new SelectById(),
-                new SelectBatchByIds(),
-                new SelectByMap(),
-                new SelectOne(),
-                new SelectCount(),
-                new SelectMaps(),
-                new SelectMapsPage(),
-                new SelectObjs(),
-                new SelectList(),
-                new SelectPage()
-        ).collect(toList());
+        //重写的注入要先于父类的注入，否则会导致注入失败
+        List<AbstractMethod> list = new LinkedList<>();
+        list.add(new LogicDeleteBatchInjector());
+        list.add(new LogicDeleteByIdInjector());
+        list.add(new LogicDeleteBatchByIdsInjector());
+        list.addAll(super.getMethodList(mapperClass));
+        return list;
     }
 }
