@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+
+mybatis-plus:
+  global-config:
+    db-config:
+      #      逻辑删除规则，在delflag字段上加@TableLogic
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    #打印SQL
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
