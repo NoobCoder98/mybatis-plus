@@ -35,7 +35,7 @@ public class MybatisFillUtils {
 
     public static String logicDelSetSql(TableInfo tableInfo) {
         List<TableFieldInfo> list = getFillFieldInfoList(tableInfo);
-        String sqlSet = null;
+        String sqlSet = "";
         if (!CollectionUtils.isEmpty(list)) {
             sqlSet = list.stream().map(i -> MybatisFillUtils.getFillSql(i)).collect(joining(""));
         }
